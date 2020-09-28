@@ -1,68 +1,63 @@
 package carwash.project.carwashSpring.datastore.dao;
 
 import carwash.project.carwashSpring.datastore.model.departments.Department;
-import carwash.project.carwashSpring.datastore.model.expenseType.ExpenseType;
-import carwash.project.carwashSpring.datastore.model.expenses.Expenses;
-import carwash.project.carwashSpring.datastore.model.staff.Staff;
+import carwash.project.carwashSpring.datastore.model.serviceType.ServiceType;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
 import javax.transaction.TransactionalException;
 import java.util.List;
 
 @Repository
-public class ExpensesDao implements ExpensesDaoI {
+public class ServiceTypeDao implements ServiceTypeDaoI{
 
     @PersistenceContext
     private EntityManager em;
 
-    Expenses expenses = new Expenses();
+    ServiceType serviceType = new ServiceType();
 
     /**
-     * List expenses
+     * List serviceType
      * @return
      * @throws Exception
      */
-    public List<Expenses> list() throws Exception{
-        String hql = "SELECT U FROM Expenses U";
+    public List<ServiceType> list() throws Exception{
+        String hql = "SELECT U FROM serviceType U";
         try{
             return this.em.createQuery(hql).getResultList();
         }catch(IllegalArgumentException ex){
             throw new Exception("Invalid query");
         }
         catch(NoResultException ex){
-            throw new Exception("No Expenses found");
+            throw new Exception("No serviceType found");
         }
     }
 
     /**
-     * Show expenses by id
+     * Show serviceType by id
      * @param id
      * @return
      * @throws Exception
      */
-    public Expenses show(String id) throws Exception {
+    public ServiceType show(String id) throws Exception {
         return this.findById(id);
     }
 
     /**
-     * save new expenses
-     * @param amount
-     * @param typeid
+     * save new serviceType
+     * @param name
      * @throws Exception
      */
-    public void create(String typeid, String amount) throws Exception{
-        int typeId = Integer.parseInt(typeid);
-        double Amount=Double.parseDouble(amount);
-
+    public void create(String name) throws Exception{
         try {
-            this.expenses.setAmount(Amount);
+            this.serviceType.setName(name);
 
-            ExpenseType expenseType = this.em.getReference(ExpenseType.class, typeId);
-            this.expenses.setExpense(expenseType);
+//            Department department = this.em.getReference(Department.class, staffDept);
+//            this.staff.setDepartment(department);
 
-            this.em.merge(this.expenses);
+            this.em.merge(this.serviceType);
         }catch (EntityExistsException ex){
             throw new Exception(ex.getMessage());
         }catch(IllegalArgumentException ex){
@@ -75,20 +70,21 @@ public class ExpensesDao implements ExpensesDaoI {
     }
 
     /**
-     * update expenses
-     * @param amount
+     * update serviceType
+     * @param name
      * @throws Exception
      */
-    public void update(String typeid, String amount) throws Exception{
-        int typeId = Integer.parseInt(typeid);
-        double Amount=Double.parseDouble(amount);
+    public void update(String id, String name) throws Exception{
+
+//        int staffDept = Integer.parseInt(dept);
+//        this.staff = this.findById(id);
+
         try {
-            this.expenses.setAmount(Amount);
+            this.serviceType.setName(name);
+//            Department department = this.em.getReference(Department.class, staffDept);
+//            this.staff.setDepartment(department);
 
-            ExpenseType expenseType = this.em.getReference(ExpenseType.class, typeId);
-            this.expenses.setExpense(expenseType);
-
-            this.em.merge(this.expenses);
+            this.em.merge(this.serviceType);
         }catch (EntityExistsException ex){
             throw new Exception(ex.getMessage());
         }catch(IllegalArgumentException ex){
@@ -102,14 +98,14 @@ public class ExpensesDao implements ExpensesDaoI {
 
 
     /**
-     * Delete expenses by id
+     * Delete serviceType by id
      * @param id
      * @throws Exception
      */
     public void delete(String id) throws Exception{
         try {
-            this.expenses = this.findById(id);
-            this.em.remove(this.expenses);
+            this.serviceType = this.findById(id);
+            this.em.remove(this.serviceType);
         }catch(TransactionalException ex){
             throw new Exception("There is no transaction for this entity manager");
         }
@@ -117,24 +113,24 @@ public class ExpensesDao implements ExpensesDaoI {
 
 
     /**
-     * Find expenses by id
+     * Find serviceType by id
      * @param id
      * @return
      * @throws Exception
      */
-    private Expenses findById(String id) throws Exception{
+    private ServiceType findById(String id) throws Exception{
         if(StringUtils.isBlank(id) || StringUtils.equalsIgnoreCase(id, "0"))
-            throw new Exception("Invalid expenses id");
+            throw new Exception("Invalid serviceType id");
 
         try{
-            Expenses expenses = this.em.find(Expenses.class, Integer.parseInt(id));
-            if(expenses == null)
-                throw new Exception("Expenses not found");
+            ServiceType serviceType = this.em.find(ServiceType.class, Integer.parseInt(id));
+            if(serviceType == null)
+                throw new Exception("ServiceType not found");
             else
-                return expenses;
+                return serviceType;
 
         }catch (IllegalArgumentException ex){
-            throw new Exception("Provide a valid expenses entity or primary key");
+            throw new Exception("Provide a valid serviceType entity or primary key");
         }
     }
 

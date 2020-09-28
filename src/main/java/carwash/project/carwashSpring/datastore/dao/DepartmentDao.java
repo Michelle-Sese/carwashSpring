@@ -45,7 +45,7 @@ public class DepartmentDao implements DepartmentDaoI{
     }
 
     /**
-     * save new staff
+     * save new department
      * @param name
      * @throws Exception
      */

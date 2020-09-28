@@ -1,9 +1,10 @@
 package carwash.project.carwashSpring.controllers;
 
+
 import carwash.project.carwashSpring.datastore.model.expenses.Expenses;
-import carwash.project.carwashSpring.datastore.model.staff.Staff;
+import carwash.project.carwashSpring.datastore.model.services.Services;
 import carwash.project.carwashSpring.services.ExpenseService;
-import carwash.project.carwashSpring.services.StaffService;
+import carwash.project.carwashSpring.services.ServicesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -11,37 +12,37 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/expenses")
-public class ExpensesController {
+@RequestMapping("/services")
+public class ServicesController {
 
     @Autowired
-    private ExpenseService expenseService;
+    private ServicesService servicesService;
 
     /**
-     *  Get records of expenses
+     *  Get records of services
      * @return
      * @throws Exception
      */
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public List<Expenses> list() throws Exception{
-        return  expenseService.list();
+    public List<Services> list() throws Exception{
+        return  servicesService.list();
     }
 
     /**
-     * Get 1 expenses record by id
+     * Get 1 Services record by id
      * @param id
      * @return
      * @throws Exception
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public Expenses show(@PathVariable String id)  throws Exception{
-        return expenseService.show(id);
+    public Services show(@PathVariable String id)  throws Exception{
+        return servicesService.show(id);
     }
 
     /**
-     * Create new expenses
+     * Create new Services
      * @param amount
      * @param typeId
      * @throws Exception
@@ -50,11 +51,11 @@ public class ExpensesController {
     @ResponseBody
     public void create( @RequestParam("amount") String amount,
                         @RequestParam("typeId") String typeId) throws Exception{
-        expenseService.create(amount,typeId);
+        servicesService.create(amount,typeId);
     }
 
     /**
-     * Update existing expenses by id
+     * Update existing Services by id
      * @param typeId
      * @param amount
      * @throws Exception
@@ -62,20 +63,20 @@ public class ExpensesController {
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
     @ResponseBody
     public void update(
-                        @RequestParam("amount") String amount,
-                        @RequestParam("typeId") String typeId) throws Exception{
-        expenseService.update(amount, typeId);
+            @RequestParam("amount") String amount,
+            @RequestParam("typeId") String typeId) throws Exception{
+        servicesService.update(amount, typeId);
     }
 
     /**
-     * Delete expenses by id
+     * Delete Services by id
      * @param id
      * @throws Exception
      */
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     @ResponseBody
     public void delete( @RequestParam("id") String id) throws Exception{
-        expenseService.delete(id);
+        servicesService.delete(id);
     }
 
 }

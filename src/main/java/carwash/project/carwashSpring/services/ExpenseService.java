@@ -62,8 +62,8 @@ public class ExpenseService {
         dao.create(amount, typeId);
     }
 
-    public void update(String id, String amount, String typeId)  throws Exception{
-        dao.update(id, amount, typeId);
+    public void update(String amount, String typeId)  throws Exception{
+        dao.update(amount, typeId);
     }
 
     public void delete(String id)  throws Exception{
